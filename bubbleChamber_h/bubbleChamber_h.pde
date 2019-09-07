@@ -6,6 +6,9 @@
 // Processing 0085 Beta syntax update
 // j.tarbell   April, 2005
 
+// modified
+// rxa254 Sep, 2019
+
 // a generative painting system using random collisions of
 // four unique orbit decaying particle types.
 
@@ -13,19 +16,19 @@
 int dim =  1300;
 
 // particle proportions
-int maxMuon = 1789;
-int maxQuark = 1300;
+int maxMuon   = 1789;
+int maxQuark  = 1300;
 int maxHadron = 1000;
-int maxAxion = 111;
+int maxAxion  = 111;
 
 // angle of collision (usually calculated with mouse position)
 float collisionTheta;
 
 // first time user interaction flag
-boolean boom = false;
+boolean boom = true;
 
 // discrete universe of particles?
-Muon[] muon     =  new Muon[maxMuon];
+Muon[] muon     = new Muon[maxMuon];
 Quark[] quark   = new Quark[maxQuark];
 Hadron[] hadron = new Hadron[maxHadron];
 Axion[] axion   = new Axion[maxAxion];
@@ -33,10 +36,10 @@ Axion[] axion   = new Axion[maxAxion];
 // some nice color palettes
 
 // rusted desert metal. winter, new mexico
-//color[] goodcolor = {#3a242b, #3b2426, #352325, #836454, #7d5533, #8b7352, #b1a181, #a4632e, #bb6b33, #b47249, #ca7239, #d29057, #e0b87e, #d9b166, #f5eabe, #fcfadf, #d9d1b0, #fcfadf, #d1d1ca, #a7b1ac, #879a8c, #9186ad, #776a8e};
+color[] goodcolor = {#3a242b, #3b2426, #352325, #836454, #7d5533, #8b7352, #b1a181, #a4632e, #bb6b33, #b47249, #ca7239, #d29057, #e0b87e, #d9b166, #f5eabe, #fcfadf, #d9d1b0, #fcfadf, #d1d1ca, #a7b1ac, #879a8c, #9186ad, #776a8e};
 
 // perdenales canyon. fall, texas
-color[] goodcolor = {#f8f7f1, #6b6556, #a09c84, #908b7c, #79746e, #755d35, #937343, #9c6b4b, #ab8259, #aa8a61, #578375, #f0f6f2, #d0e0e5, #d7e5ec, #d3dfea, #c2d7e7, #a5c6e3, #a6cbe6, #adcbe5, #77839d, #d9d9b9, #a9a978, #727b5b, #6b7c4b, #546d3e, #47472e, #727b52, #898a6a, #919272, #AC623b, #cb6a33, #9d5c30, #843f2b, #652c2a, #7e372b, #403229, #47392b, #3d2626, #362c26, #57392c, #998a72, #864d36, #544732 };
+//color[] goodcolor = {#f8f7f1, #6b6556, #a09c84, #908b7c, #79746e, #755d35, #937343, #9c6b4b, #ab8259, #aa8a61, #578375, #f0f6f2, #d0e0e5, #d7e5ec, #d3dfea, #c2d7e7, #a5c6e3, #a6cbe6, #adcbe5, #77839d, #d9d9b9, #a9a978, #727b5b, #6b7c4b, #546d3e, #47472e, #727b52, #898a6a, #919272, #AC623b, #cb6a33, #9d5c30, #843f2b, #652c2a, #7e372b, #403229, #47392b, #3d2626, #362c26, #57392c, #998a72, #864d36, #544732 };
 
 
 
@@ -71,7 +74,7 @@ void draw() {
   //background(0);  // and erase all that hard work?
   if (boom) {
     // initial collision event has occured, ok to move the particles...
-  
+    
     // allow each particle in the universe one step
     for (int i=0; i<hadron.length; i++){
       hadron[i].move();
@@ -205,13 +208,13 @@ class Muon {
     // initialize all parameters 
     x = dim/2;
     y = dim/2;
-    speed = random(2,32);
+    speed  = random(2,32);
     speedD = random(0.0001,0.001);
 
     // rotation
     theta = collisionTheta+random(-0.1,0.1);
     //    theta = random(TWO_PI)-PI;
-    thetaD = 0;
+    thetaD  = 0;
     thetaDD = 0;
 
     // ensure that there IS decay
@@ -223,7 +226,7 @@ class Muon {
     // color is determined by direction of movement
     int c = int((goodcolor.length-1)*(theta+PI)/TWO_PI);
     if ((c>=goodcolor.length) || (c<0)) {
-      // SAFETY: this is giving me problems    
+      // SAFETY: this is giving me problems
       // println("whoa: "+c);
     } else {
       myc = goodcolor[c];
@@ -239,7 +242,6 @@ class Muon {
     // draw anti-particle
     stroke(red(mya),green(mya),blue(mya),42);
     point(dim-x,y);
-    
 
     // move
     x += speed*sin(theta);
